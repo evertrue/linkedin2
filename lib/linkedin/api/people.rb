@@ -9,6 +9,10 @@ module LinkedIn
         execute 'me', opts
       end
 
+      def email_address(**opts)
+        execute 'emailAddress', opts
+      end
+
       def connections(selector = '~', **opts)
         execute 'people', opts.merge(selector: selector, path: 'connections')
       end
