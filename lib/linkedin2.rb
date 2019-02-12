@@ -28,9 +28,13 @@ module LinkedIn
     Client.new config, &block
   end
 
-  [:r_liteprofile, :r_emailaddress, :r_fullprofile, :r_contactinfo, :r_network, :rw_groups, :rw_nus, :w_messages].each do |field|
+  perms = [:r_emailaddress, :r_fullprofile, :r_contactinfo, :r_network, :rw_groups, :rw_nus, :w_messages]
+  profile_perm = ENV['LinkedinV2'].downcase == 'true' ? :r_liteprofile : :r_basicprofile
+  perms.prepend(profile_perm)
+
+  perms.each do |field|
     define_singleton_method field do
-        Fields.const_get field.to_s.upcase
+      Fields.const_get field.to_s.upcase
     end
   end
 end

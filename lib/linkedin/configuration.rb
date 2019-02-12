@@ -2,18 +2,19 @@ module LinkedIn
   module Configuration
     module ClassConfiguration
       def default_config
-        {
+        default_cfg = {
           request_format: :json,
 
           app_key: nil,
           app_secret: nil,
           access_token: nil,
 
-          scope: ['r_liteprofile'],
           redirect_uri: 'http://localhost',
 
           logger: Logger.new('/dev/null')
         }
+
+        ENV['LinkedinV2'].downcase == 'true' ? default_cfg.merge(scope: ['r_liteprofile']) : default_cfg.merge(scope: ['r_basicprofile'])
       end
 
       def configuration
