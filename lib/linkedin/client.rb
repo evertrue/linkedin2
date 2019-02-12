@@ -44,7 +44,8 @@ module LinkedIn
 
     def execute(root, method: :get, selector: nil, fields: nil, **opts)
       rendered_fields = Fields.render fields
-      query = ['v2', root, selector.to_param, opts[:path]].compact.join('/').concat(rendered_fields)
+
+      query = [api_version(root), root, selector.to_param, opts[:path]].compact.join('/').concat(rendered_fields)
 
       response = connection.send method, query do |req|
         req.headers.update override(@headers, opts[:headers])
@@ -53,6 +54,18 @@ module LinkedIn
       end
 
       Response.new response
+    end
+
+    def api_version(root)
+      current_api(root).in?(v1_apis) ? 'v1' : 'v2'
+    end
+
+    def current_api(root)
+      root.try(:split, '/').try(:select, &:present?).try(:first)
+    end
+
+    def v1_apis
+      ['people', 'people-search']
     end
   end
 end
