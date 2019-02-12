@@ -14,7 +14,7 @@ module LinkedIn
           logger: Logger.new('/dev/null')
         }
 
-        ENV['LinkedinV2'].downcase == 'true' ? default_cfg.merge(scope: ['r_liteprofile']) : default_cfg.merge(scope: ['r_basicprofile'])
+        ENV['LinkedinV2'].to_s.casecmp('true').zero? ? default_cfg.merge(scope: ['r_liteprofile']) : default_cfg.merge(scope: ['r_basicprofile'])
       end
 
       def configuration

@@ -57,7 +57,7 @@ module LinkedIn
     end
 
     def api_version(root)
-      ENV['LinkedinV2'].downcase == 'true' && !current_api(root).in?(v1_apis) ? 'v2' : 'v1'
+      ENV['LinkedinV2'].to_s.casecmp('true').zero? && !current_api(root).in?(v1_apis) ? 'v2' : 'v1'
     end
 
     def current_api(root)

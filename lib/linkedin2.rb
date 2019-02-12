@@ -29,7 +29,7 @@ module LinkedIn
   end
 
   perms = [:r_emailaddress, :r_fullprofile, :r_contactinfo, :r_network, :rw_groups, :rw_nus, :w_messages]
-  profile_perm = ENV['LinkedinV2'].downcase == 'true' ? :r_liteprofile : :r_basicprofile
+  profile_perm = ENV['LinkedinV2'].to_s.casecmp('true').zero? ? :r_liteprofile : :r_basicprofile
   perms.prepend(profile_perm)
 
   perms.each do |field|

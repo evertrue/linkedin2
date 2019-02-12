@@ -13,7 +13,7 @@ module LinkedIn
     end
 
     def self.find_by(options)
-      fields = ENV['LinkedinV2'].downcase == 'true' ? LinkedIn.r_liteprofile : LinkedIn.r_basicprofile
+      fields = ENV['LinkedinV2'].to_s.casecmp('true').zero? ? LinkedIn.r_liteprofile : LinkedIn.r_basicprofile
       Profile.new client.profile( { fields: fields }.merge options)
     end
   end
