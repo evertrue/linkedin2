@@ -2,7 +2,7 @@ module LinkedIn
   module API
     module Companies
       def company(*selector, filter: nil, **opts)
-        root = 'companies'
+        root = ENV['LinkedinV2'].to_s.casecmp('true').zero? ? 'organizations' : 'companies'
 
         selector.compact!
         selector = selector.first if selector.size == 1
@@ -34,7 +34,7 @@ module LinkedIn
       # https://api.linkedin.com/v2/company-search?keywords=nike%20footwear%20kobe%20yellow&hq-only=true
 
       def company_search(*keywords, filter: nil, **opts)
-
+        root = ENV['LinkedinV2'].to_s.casecmp('true').zero? ? 'search' : 'company-search'
         opts[:params] = {} if opts[:params].blank?
         opts[:params].merge! keywords: keywords.compact.join(' ')
 
@@ -50,7 +50,7 @@ module LinkedIn
           opts[:params].merge! facets
         end
 
-        execute 'company-search', opts
+        execute root, opts
       end
     end
   end
